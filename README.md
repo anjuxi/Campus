@@ -1,101 +1,101 @@
-# 校园论坛
+# Campus Forum
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![Jinja2](https://img.shields.io/badge/Jinja2-3.x-B41717?logo=jinja&logoColor=white)](https://jinja.palletsprojects.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Werkzeug](https://img.shields.io/badge/Werkzeug-3.x-000000)](https://werkzeug.palletsprojects.com/)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/zh-CN/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/zh-CN/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://www.python.org/downloads/)
 
-一个基于 Flask + SQLite 的轻量级校园论坛。单文件后端、零前端构建、零外部 CDN，开箱即可运行。包含注册登录、板块浏览、发帖、评论与回复、点赞、搜索、热门排序、个人主页、资料与密码设置，以及管理员置顶和内容管理。
+A lightweight campus forum based on Flask + SQLite. Single-file backend, zero frontend build, zero external CDN, and ready to run out of the box. It includes registration and login, section browsing, posting, comments and replies, likes, search, popular sorting, user profiles, profile and password settings, as well as admin pinning and content management.
 
 ---
 
-## 目录
+## Table of Contents
 
-- [功能特性](#功能特性)
-- [技术栈与依赖](#技术栈与依赖)
-- [项目结构](#项目结构)
-- [快速开始](#快速开始)
-- [页面与操作说明](#页面与操作说明)
-- [路由一览](#路由一览)
-- [数据库设计](#数据库设计)
-- [系统架构](#系统架构)
-- [安全与健壮性设计](#安全与健壮性设计)
-- [配置项](#配置项)
-- [常见问题](#常见问题)
-- [已知限制](#已知限制)
-- [作者与联系方式](#作者与联系方式)
-
----
-
-## 功能特性
-
-### 账号
-- 注册、登录、退出登录
-- 用户名 2–20 位（字母、数字、下划线或中文），密码至少 6 位
-- 昵称 1–20 字，个人签名最长 100 字
-- 8 种头像配色可选，头像以"昵称首字 + 色块"呈现，不使用图片上传
-- 首位注册用户自动成为管理员
-- 修改密码需校验原密码
-
-### 内容
-- 6 个固定板块：学习交流、校园生活、二手交易、失物招领、活动通知、灌水闲聊
-- 发帖（板块 + 标题 2–60 字 + 正文至少 5 字）
-- 帖子详情、浏览量统计、按最新/热门排序
-- 评论与二级回复（回复某条评论时显示"回复 @昵称"）
-- 点赞 / 取消点赞，前端无刷新切换（返回 JSON）
-- 关键词搜索（标题 + 正文）
-- 分页，每页 15 条
-
-### 管理与个人中心
-- 作者可删除自己的帖子/评论，管理员可删除任意帖子/评论
-- 管理员可置顶 / 取消置顶
-- 个人主页展示资料、发帖数、评论数与发帖列表
-- 个人设置支持修改昵称、头像配色、签名和密码
-
-### 交互与视觉
-- 导航栏常显"退出"按钮，帖子详情页提供"← 返回"与"返回板块"
-- 顶部导航栏搜索框、板块标签、排序切换、分页
-- Flash 提示消息 3 秒后自动淡出
-- 删除操作二次确认
-- 响应式布局，适配 900px / 620px 两个断点
+- [Features](#features)
+- [Tech Stack and Dependencies](#tech-stack-and-dependencies)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Pages and Operations](#pages-and-operations)
+- [Route Overview](#route-overview)
+- [Database Design](#database-design)
+- [System Architecture](#system-architecture)
+- [Security and Robustness Design](#security-and-robustness-design)
+- [Configuration](#configuration)
+- [FAQ](#faq)
+- [Known Limitations](#known-limitations)
+- [Author and Contact](#author-and-contact)
 
 ---
 
-## 技术栈与依赖
+## Features
 
-### 运行依赖
+### Accounts
+- Register, log in, and log out
+- Username 2–20 characters (letters, digits, underscores, or Chinese characters); password at least 6 characters
+- Nickname 1–20 characters; bio up to 100 characters
+- 8 avatar color schemes; avatars are displayed as "first character of nickname + color block"; no image uploads
+- The first registered user automatically becomes an administrator
+- Changing the password requires verifying the original password
 
-| 依赖 | 版本要求 | 说明 |
+### Content
+- 6 fixed sections: Study Exchange, Campus Life, Second-hand Trading, Lost and Found, Event Announcements, Off-Topic Chat
+- Create posts (section + title 2–60 characters + content at least 5 characters)
+- Post detail, view count, sorting by latest/popular
+- Comments and second-level replies (when replying to a comment, show "Reply to @nickname")
+- Like / unlike, with refresh-free frontend toggle (returns JSON)
+- Keyword search (title + content)
+- Pagination, 15 items per page
+
+### Management and Personal Center
+- Authors can delete their own posts/comments; administrators can delete any post/comment
+- Administrators can pin/unpin posts
+- User profile displays profile, post count, comment count, and post list
+- Personal settings support editing nickname, avatar color scheme, bio, and password
+
+### Interaction and Visuals
+- The navigation bar always shows a "Logout" button; the post detail page provides "← Back" and "Back to section"
+- Top navigation search box, section tabs, sort toggle, pagination
+- Flash messages automatically fade out after 3 seconds
+- Confirmation before deletion
+- Responsive layout with breakpoints at 900px / 620px
+
+---
+
+## Tech Stack and Dependencies
+
+### Runtime Dependencies
+
+| Dependency | Version Requirement | Description |
 | --- | --- | --- |
-| Python | 3.9+（开发环境 3.11.9） | 运行解释器 |
-| Flask | >= 3.0（开发环境 3.1.3，见 `requirements.txt`） | Web 框架与路由 |
-| Werkzeug | 随 Flask 安装 | `generate_password_hash` / `check_password_hash` 密码哈希 |
-| Jinja2 | 随 Flask 安装 | 模板引擎与自定义过滤器（`timeago`、`excerpt`） |
-| SQLite | Python 内置 `sqlite3` | 数据存储，无需额外安装 |
-| HTML5 / CSS3 / JavaScript (ES6) | 浏览器原生支持 | 前端，无框架、无打包、无 CDN |
+| Python | 3.9+ (development environment 3.11.9) | Runtime interpreter |
+| Flask | >= 3.0 (development environment 3.1.3, see `requirements.txt`) | Web framework and routing |
+| Werkzeug | Installed with Flask | `generate_password_hash` / `check_password_hash` password hashing |
+| Jinja2 | Installed with Flask | Template engine and custom filters (`timeago`, `excerpt`) |
+| SQLite | Python built-in `sqlite3` | Data storage, no extra installation required |
+| HTML5 / CSS3 / JavaScript (ES6) | Natively supported by browsers | Frontend, no framework, no bundler, no CDN |
 
-前端不依赖任何第三方库：样式手写于 `static/css/style.css`，交互手写于 `static/js/main.js`，图标为模板宏生成的内联 SVG。
+The frontend does not depend on any third-party libraries: styles are hand-written in `static/css/style.css`, interactions are hand-written in `static/js/main.js`, and icons are inline SVGs generated by template macros.
 
-### 安装
+### Installation
 
 ```bash
-# 1. 创建并激活虚拟环境（可选，但推荐）
+# 1. Create and activate a virtual environment (optional, but recommended)
 python -m venv .venv
 # Windows PowerShell
 .venv\Scripts\Activate.ps1
 # macOS / Linux
 source .venv/bin/activate
 
-# 2. 安装依赖
+# 2. Install dependencies
 pip install -r requirements.txt
 ```
 
-`requirements.txt` 内容：
+Contents of `requirements.txt`:
 
 ```text
 flask>=3.0
@@ -103,64 +103,64 @@ flask>=3.0
 
 ---
 
-## 项目结构
+## Project Structure
 
 ```text
 校园论坛/
-├── app.py                  # 全部后端逻辑：数据库、认证、路由、模板过滤器
-├── forum.db                # SQLite 数据库（首次启动自动创建）
-├── requirements.txt        # Python 依赖声明
+├── app.py                  # All backend logic: database, auth, routes, template filters
+├── forum.db                # SQLite database (auto-created on first launch)
+├── requirements.txt        # Python dependency declaration
 ├── static/
 │   ├── css/
-│   │   └── style.css       # 全站样式（实色配色、细边框、无渐变）
+│   │   └── style.css       # Site-wide styles (solid colors, thin borders, no gradients)
 │   ├── js/
-│   │   └── main.js         # Flash 淡出、删除确认、点赞、评论回复
-│   └── favicon.svg         # 站点图标（内联 SVG）
+│   │   └── main.js         # Flash fade-out, delete confirmation, likes, comment replies
+│   └── favicon.svg         # Site icon (inline SVG)
 └── templates/
-    ├── base.html           # 基础布局：导航栏、Flash、页脚
-    ├── _ui.html            # 宏库：线性图标 icon / 文字头像 avatar / 板块徽章
-    ├── index.html          # 首页：板块标签、排序、帖子列表、侧栏、分页
-    ├── post_detail.html    # 详情：返回按钮、正文、点赞、评论与回复
-    ├── new_post.html       # 发帖
-    ├── user_home.html      # 个人主页
-    ├── settings.html       # 资料与密码设置
-    ├── login.html          # 登录
-    ├── register.html       # 注册
-    └── error.html          # 403 / 404 错误页
+    ├── base.html           # Base layout: navbar, Flash, footer
+    ├── _ui.html            # Macro library: linear icon icon / text avatar avatar / section badge
+    ├── index.html          # Home: section tabs, sorting, post list, sidebar, pagination
+    ├── post_detail.html    # Detail: back button, content, likes, comments and replies
+    ├── new_post.html       # New post
+    ├── user_home.html      # User profile
+    ├── settings.html       # Profile and password settings
+    ├── login.html          # Login
+    ├── register.html       # Register
+    └── error.html          # 403 / 404 error page
 ```
 
 ---
 
-## 快速开始
+## Quick Start
 
 ```bash
-# 在项目根目录执行
+# Run in the project root directory
 python app.py
 ```
 
-启动后终端输出：
+After startup, the terminal outputs:
 
 ```text
 ——————————————————————————————————————————————
-校园论坛已启动！
-请在浏览器访问：http://127.0.0.1:5000 ！
-第一位注册的用户将自动成为管理员！
+Campus Forum has started!
+Please visit in your browser: http://127.0.0.1:5000 !
+The first registered user will automatically become an administrator!
 ——————————————————————————————————————————————
 ```
 
-浏览器访问 <http://127.0.0.1:5000>，先注册一个账号（第一个注册的账号即管理员），随后即可发帖、评论和点赞。
+Visit <http://127.0.0.1:5000> in your browser. First register an account (the first registered account becomes the administrator), and then you can post, comment, and like.
 
-![屏幕截图 2026-10-29 185701](C:\Users\anjuxi\Desktop\4+1板块\第4板块\校园论坛\屏幕截图 2026-10-29 185701.png)
+![Screenshot 2026-10-29 185701](屏幕截图 2026-10-29 185701.png)
 
-### 数据库初始化与重置
+### Database Initialization and Reset
 
-- 首次运行 `python app.py` 时会自动执行建表逻辑（`init_db()`），无需手动建库。
-- 想清空所有数据：停止服务，删除项目根目录下的 `forum.db`，再次启动即可重新建库。
-- 旧版本遗留的 emoji 头像数据会在启动时自动迁移为配色名（`rose` 等），不会报错。
+- On first run of `python app.py`, table creation logic (`init_db()`) runs automatically; no manual database creation is needed.
+- To clear all data: stop the service, delete `forum.db` in the project root directory, and start again to recreate the database.
+- Legacy emoji avatar data from older versions is automatically migrated to color scheme names (such as `rose`) at startup, without errors.
 
-### 端口修改
+### Changing the Port
 
-默认监听 `127.0.0.1:5000`。如需修改端口，编辑 [app.py](app.py) 末尾：
+By default, it listens on `127.0.0.1:5000`. To change the port, edit the end of [app.py](app.py):
 
 ```python
 app.run(host="127.0.0.1", port=5000, debug=False);
@@ -168,62 +168,62 @@ app.run(host="127.0.0.1", port=5000, debug=False);
 
 ---
 
-## 页面与操作说明
+## Pages and Operations
 
-| 页面 | 路径 | 说明 |
+| Page | Path | Description |
 | --- | --- | --- |
-| 首页 | `/` | 板块筛选、关键词搜索、最新/热门排序、分页、论坛概况与热门讨论 |
-| 帖子详情 | `/post/<id>` | 正文、浏览量、点赞、删除（有权限时）、置顶（管理员）、评论与回复 |
-| 发帖 | `/post/new` | 选择板块，填写标题与正文 |
-| 个人主页 | `/user/<id>` | 资料、发帖数、评论数、该用户的帖子列表 |
-| 个人设置 | `/settings` | 修改昵称、头像配色、签名；单独表单修改密码 |
-| 登录 / 注册 | `/login`、`/register` | 已登录访问会自动跳回首页 |
-| 错误页 | 403 / 404 | 统一的错误提示与返回首页入口 |
+| Home | `/` | Section filtering, keyword search, latest/popular sorting, pagination, forum overview and popular discussions |
+| Post Detail | `/post/<id>` | Content, views, likes, delete (if authorized), pin (admin), comments and replies |
+| New Post | `/post/new` | Choose a section, fill in title and content |
+| User Profile | `/user/<id>` | Profile, post count, comment count, and the user's post list |
+| Personal Settings | `/settings` | Edit nickname, avatar color scheme, bio; separate form for password change |
+| Login / Register | `/login`, `/register` | Logged-in visitors are automatically redirected back to home |
+| Error Page | 403 / 404 | Unified error message and entry back to home |
 
-界面要点：
+UI highlights:
 
-- 首页板块切换为"文字 + 底部横线"标签，选中项下方显示粉色横线。
-- 帖子卡片展示作者头像、板块徽章、标题、摘要、时间与浏览/点赞/评论数。
-- 帖子详情页左上角常显"← 返回"按钮（优先返回浏览器上一页，否则回首页），旁边提供"返回「当前板块」"。
-- 登录用户可在导航栏直接看到"退出"按钮（图标 + 文字），设置入口为齿轮图标。
-- 未登录时点赞会跳转登录页，登录后自动回到原页面。
+- Home section switching uses "text + bottom underline" tabs; the selected item shows a pink underline.
+- Post cards show author avatar, section badge, title, excerpt, time, and views/likes/comments counts.
+- The top-left of the post detail page always shows a "← Back" button (prefer browser history, otherwise home), with "Back to [current section]" next to it.
+- Logged-in users can see the "Logout" button directly in the navigation bar (icon + text); the settings entry is a gear icon.
+- If not logged in, liking redirects to the login page; after login, it automatically returns to the original page.
 
 ---
 
-## 路由一览
+## Route Overview
 
-| 方法 | 路径 | 功能 | 权限 |
+| Method | Path | Function | Permission |
 | --- | --- | --- | --- |
-| GET | `/` | 帖子列表（板块 / 搜索 / 排序 / 分页） | 公开 |
-| GET, POST | `/register` | 注册 | 未登录 |
-| GET, POST | `/login` | 登录（支持站内 `next` 回跳） | 未登录 |
-| GET | `/logout` | 退出登录 | 公开 |
-| GET, POST | `/post/new` | 发布帖子 | 登录 |
-| GET | `/post/<id>` | 帖子详情（浏览量 +1） | 公开 |
-| POST | `/post/<id>/comment` | 发表评论 / 回复 | 登录 |
-| POST | `/post/<id>/like` | 点赞切换，返回 JSON | 登录 |
-| POST | `/post/<id>/delete` | 删除帖子 | 作者或管理员 |
-| POST | `/post/<id>/pin` | 置顶 / 取消置顶 | 管理员 |
-| POST | `/comment/<id>/delete` | 删除评论 | 作者或管理员 |
-| GET | `/user/<id>` | 用户主页 | 公开 |
-| GET, POST | `/settings` | 修改资料 / 密码 | 登录 |
+| GET | `/` | Post list (section / search / sort / pagination) | Public |
+| GET, POST | `/register` | Register | Not logged in |
+| GET, POST | `/login` | Login (supports in-site `next` redirect) | Not logged in |
+| GET | `/logout` | Log out | Public |
+| GET, POST | `/post/new` | Publish post | Login required |
+| GET | `/post/<id>` | Post detail (views +1) | Public |
+| POST | `/post/<id>/comment` | Post comment / reply | Login required |
+| POST | `/post/<id>/like` | Toggle like, returns JSON | Login required |
+| POST | `/post/<id>/delete` | Delete post | Author or admin |
+| POST | `/post/<id>/pin` | Pin / unpin | Admin |
+| POST | `/comment/<id>/delete` | Delete comment | Author or admin |
+| GET | `/user/<id>` | User profile | Public |
+| GET, POST | `/settings` | Edit profile / password | Login required |
 
-未登录访问受保护页面时，会写入一条 Flash 提示并跳转 `/login?next=原路径`；权限不足返回 403 页面。
+When not logged in and accessing protected pages, a Flash message is written and the user is redirected to `/login?next=original_path`; insufficient permissions return a 403 page.
 
 ---
 
-## 数据库设计
+## Database Design
 
-四张表：`users`、`posts`、`comments`、`likes`。外键约束在每次请求连接时通过 `PRAGMA foreign_keys = ON` 开启。
+Four tables: `users`, `posts`, `comments`, `likes`. Foreign key constraints are enabled on each request connection via `PRAGMA foreign_keys = ON`.
 
 ```mermaid
 erDiagram
-    users ||--o{ posts : "发布"
-    users ||--o{ comments : "发表"
-    users ||--o{ likes : "点赞"
-    posts ||--o{ comments : "拥有"
-    posts ||--o{ likes : "被赞"
-    comments ||--o{ comments : "回复"
+    users ||--o{ posts : "publishes"
+    users ||--o{ comments : "writes"
+    users ||--o{ likes : "likes"
+    posts ||--o{ comments : "has"
+    posts ||--o{ likes : "liked by"
+    comments ||--o{ comments : "replies to"
 
     users {
         INTEGER id PK
@@ -263,119 +263,119 @@ erDiagram
     }
 ```
 
-字段说明：
+Field descriptions:
 
-| 表 | 字段 | 类型 | 说明 |
+| Table | Field | Type | Description |
 | --- | --- | --- | --- |
-| `users` | `id` | INTEGER PK | 自增主键 |
-| | `username` | TEXT UNIQUE | 登录名，唯一 |
-| | `password_hash` | TEXT | Werkzeug 哈希后的密码，不存明文 |
-| | `nickname` | TEXT | 展示昵称 |
-| | `avatar` | TEXT | 头像配色名，默认 `rose` |
-| | `bio` | TEXT | 个性签名，默认空串 |
-| | `is_admin` | INTEGER | 1 表示管理员，首位注册用户为 1 |
+| `users` | `id` | INTEGER PK | Auto-increment primary key |
+| | `username` | TEXT UNIQUE | Login name, unique |
+| | `password_hash` | TEXT | Password hashed by Werkzeug; plaintext is not stored |
+| | `nickname` | TEXT | Display nickname |
+| | `avatar` | TEXT | Avatar color scheme name, default `rose` |
+| | `bio` | TEXT | Bio, default empty string |
+| | `is_admin` | INTEGER | 1 means administrator; the first registered user is 1 |
 | | `created_at` | TEXT | `YYYY-MM-DD HH:MM:SS` |
-| `posts` | `user_id` | INTEGER FK | 作者，引用 `users.id` |
-| | `section` | TEXT | 板块名，取值受后端白名单约束 |
-| | `views` | INTEGER | 浏览量 |
-| | `is_pinned` | INTEGER | 是否置顶 |
-| `comments` | `post_id` | INTEGER FK | 所属帖子，`ON DELETE CASCADE` |
-| | `parent_id` | INTEGER FK | 被回复评论，自引用，可空 |
-| `likes` | `user_id` + `post_id` | 复合主键 | 同一用户对同一帖子只能点一次赞 |
+| `posts` | `user_id` | INTEGER FK | Author, references `users.id` |
+| | `section` | TEXT | Section name, constrained by backend whitelist |
+| | `views` | INTEGER | View count |
+| | `is_pinned` | INTEGER | Whether pinned |
+| `comments` | `post_id` | INTEGER FK | Post it belongs to, `ON DELETE CASCADE` |
+| | `parent_id` | INTEGER FK | Comment being replied to, self-reference, nullable |
+| `likes` | `user_id` + `post_id` | Composite primary key | A user can like a post only once |
 
-索引：`idx_posts_section(section)`、`idx_comments_post(post_id)`。时间统一以 `%Y-%m-%d %H:%M:%S` 字符串存储，配合 `timeago` 过滤器显示为"刚刚 / 分钟前 / 小时前 / 天前 / 日期"。
+Indexes: `idx_posts_section(section)`, `idx_comments_post(post_id)`. Times are stored uniformly as `%Y-%m-%d %H:%M:%S` strings and displayed by the `timeago` filter as "just now / minutes ago / hours ago / days ago / date".
 
 ---
 
-## 系统架构
+## System Architecture
 
 ```mermaid
 flowchart LR
-    B[浏览器<br/>HTML / CSS / JS] -->|HTTP 请求| F[Flask 应用 app.py]
-    F -->|渲染| T[Jinja2 模板<br/>templates/*.html]
-    F -->|返回静态文件| S[static/<br/>style.css · main.js · favicon.svg]
-    F -->|参数化 SQL| D[(SQLite<br/>forum.db)]
+    B[Browser<br/>HTML / CSS / JS] -->|HTTP request| F[Flask app app.py]
+    F -->|Render| T[Jinja2 templates<br/>templates/*.html]
+    F -->|Return static files| S[static/<br/>style.css · main.js · favicon.svg]
+    F -->|Parameterized SQL| D[(SQLite<br/>forum.db)]
     T -->|HTML| B
     S -->|CSS / JS / SVG| B
 ```
 
-请求处理流程：
+Request handling flow:
 
-1. `before_request` 从会话读取 `user_id`，加载当前用户到 `g.user`。
-2. 视图函数通过 `get_db()` 获取同一请求内复用的连接（开启外键、`Row` 行工厂）。
-3. `login_required` / `admin_required` 装饰器做权限拦截。
-4. 视图查询数据后交给 Jinja2 模板渲染，模板复用 `_ui.html` 中的图标与头像宏。
-5. 请求结束由 `teardown_appcontext` 关闭数据库连接。
-
----
-
-## 安全与健壮性设计
-
-- **密码**：仅存 `generate_password_hash` 的结果，登录用 `check_password_hash` 校验。
-- **SQL 注入**：所有查询使用参数化占位符；动态条件只拼接白名单字段。
-- **搜索通配符**：对 `%`、`_`、`\` 做转义并使用 `ESCAPE '\'`，避免搜索 `%` 时命中全部帖子。
-- **开放重定向**：登录 `next` 仅允许以单个 `/` 开头的站内路径，同时拒绝 `//` 与反斜杠形式。
-- **XSS**：模板默认自动转义，正文以纯文本展示（`white-space: pre-wrap` 保留换行），不渲染 HTML。
-- **越权**：删除帖子/评论校验作者或管理员身份，置顶仅管理员，越权返回 403。
-- **外键约束**：删除帖子前先解除评论自引用，删除评论前先解除子评论引用，避免级联过程中触发约束失败；帖子的评论与点赞由 `ON DELETE CASCADE` 清理。
-- **输入校验**：用户名格式、昵称长度、密码长度、标题长度、正文长度、签名长度、板块白名单、`parent_id` 归属均在服务端校验，不依赖前端。
-- **参数容错**：非法页码（如 `?page=abc`）、非法排序参数、未知板块、伪造的跨帖回复目标都会安全降级，不会 500。
-- **会话清理**：用户被删除后，下次请求会清空失效会话。
+1. `before_request` reads `user_id` from the session and loads the current user into `g.user`.
+2. View functions obtain a connection reused within the same request via `get_db()` (enables foreign keys, `Row` row factory).
+3. `login_required` / `admin_required` decorators enforce permission checks.
+4. Views query data and pass it to Jinja2 templates for rendering; templates reuse the icon and avatar macros from `_ui.html`.
+5. At request end, `teardown_appcontext` closes the database connection.
 
 ---
 
-## 配置项
+## Security and Robustness Design
 
-| 配置 | 位置 | 当前值 | 说明 |
+- **Passwords**: Only the result of `generate_password_hash` is stored; login checks with `check_password_hash`.
+- **SQL injection**: All queries use parameterized placeholders; dynamic conditions only concatenate whitelisted fields.
+- **Search wildcards**: Escape `%`, `_`, and `\` and use `ESCAPE '\'` to avoid searching `%` matching all posts.
+- **Open redirect**: Login `next` only allows in-site paths starting with a single `/`, and rejects `//` and backslash forms.
+- **XSS**: Templates auto-escape by default; content is rendered as plain text (`white-space: pre-wrap` preserves line breaks), with no HTML rendering.
+- **Unauthorized access**: Deleting posts/comments verifies author or administrator identity; pinning is admin-only; unauthorized access returns 403.
+- **Foreign key constraints**: Before deleting a post, comment self-references are cleared first; before deleting a comment, child comment references are cleared first, avoiding constraint failures during cascade; post comments and likes are cleaned by `ON DELETE CASCADE`.
+- **Input validation**: Username format, nickname length, password length, title length, content length, bio length, section whitelist, and `parent_id` ownership are all validated server-side, not relying on the frontend.
+- **Parameter tolerance**: Invalid page numbers (such as `?page=abc`), invalid sort parameters, unknown sections, and forged cross-post reply targets degrade safely without 500 errors.
+- **Session cleanup**: After a user is deleted, the next request clears the invalid session.
+
+---
+
+## Configuration
+
+| Configuration | Location | Current Value | Description |
 | --- | --- | --- | --- |
-| `SECRET_KEY` | `app.py` | `campus-forum-secret-key-2024` | 会话签名密钥，正式部署前请替换为环境变量 |
-| `DATABASE` | `app.py` | `项目根目录/forum.db` | SQLite 文件路径 |
-| `PAGE_SIZE` | `app.py` | `15` | 列表每页条数 |
-| `SECTIONS` | `app.py` | 6 个板块 | 板块白名单，同时驱动首页标签与发帖选项 |
-| `AVATARS` | `app.py` | 8 种配色 | 头像可选配色 |
-| 监听地址 / 端口 | `app.py` 末尾 | `127.0.0.1:5000` | 开发服务器监听参数 |
+| `SECRET_KEY` | `app.py` | `campus-forum-secret-key-2024` | Session signing key; replace with an environment variable before production deployment |
+| `DATABASE` | `app.py` | `project_root/forum.db` | SQLite file path |
+| `PAGE_SIZE` | `app.py` | `15` | Number of items per page |
+| `SECTIONS` | `app.py` | 6 sections | Section whitelist, also drives home tabs and new post options |
+| `AVATARS` | `app.py` | 8 color schemes | Available avatar color schemes |
+| Listen address / port | End of `app.py` | `127.0.0.1:5000` | Development server listen parameters |
 
 ---
 
-## 常见问题
+## FAQ
 
-**Q：启动时报 `Address already in use`？**
-A：5000 端口被占用。结束占用进程，或修改 `app.run` 的端口。
+**Q: `Address already in use` on startup?**
+A: Port 5000 is occupied. End the occupying process, or change the `app.run` port.
 
 ```powershell
-# Windows：查找并结束占用 5000 端口的进程
+# Windows: find and kill the process occupying port 5000
 Get-NetTCPConnection -LocalPort 5000 -State Listen | Select-Object -ExpandProperty OwningProcess
 Stop-Process -Id <PID> -Force
 ```
 
-**Q：为什么我注册后不是管理员？**
-A：只有数据库中第一个注册的账号会被授予管理员权限。
+**Q: Why am I not an administrator after registering?**
+A: Only the first registered account in the database is granted administrator permissions.
 
-**Q：改了模板或 `app.py` 后页面没变化？**
-A：项目以 `debug=False` 运行，需要重启服务；纯 CSS/JS 改动则强制刷新浏览器缓存即可（Windows `Ctrl+F5`）。
+**Q: I changed a template or `app.py`, but the page does not change?**
+A: The project runs with `debug=False`, so the service must be restarted; for pure CSS/JS changes, force-refresh the browser cache (Windows `Ctrl+F5`).
 
-**Q：为什么界面里看不到 emoji？**
-A：这是刻意的设计选择。所有图标由 `templates/_ui.html` 中的 `icon` 宏生成内联 SVG，头像为昵称首字的纯色色块。
+**Q: Why can't I see emoji in the UI?**
+A: This is an intentional design choice. All icons are inline SVGs generated by the `icon` macro in `templates/_ui.html`; avatars are solid color blocks with the first character of the nickname.
 
-**Q：数据存在哪里？能导出吗？**
-A：全部数据在 `forum.db` 单文件中，可直接用任何 SQLite 客户端打开、备份或导出。
-
----
-
-## 已知限制
-
-- 使用 Flask 内置开发服务器，仅适合本地运行与学习演示，不适合直接暴露到公网。生产部署请使用 Gunicorn / uWSGI 等 WSGI 服务器。
-- 未实现 CSRF Token、登录失败次数限制、附件上传与富文本编辑。
-- 未提供自动化测试文件；开发期使用 Flask `test_client` 配合临时数据库做过注册登录、重定向拦截、发帖评论、越权、删帖删除、JSON 点赞等回归验证。
-- 会话密钥硬编码在源码中，部署前应改为从环境变量读取。
+**Q: Where is the data stored? Can it be exported?**
+A: All data is in the single `forum.db` file, which can be opened, backed up, or exported with any SQLite client.
 
 ---
 
-## 作者与联系方式
+## Known Limitations
 
-**谙弆悕博士（Ailan Anjuxi）**
+- Uses Flask's built-in development server, suitable only for local running and learning demonstrations, not for direct public exposure. For production deployment, use a WSGI server such as Gunicorn / uWSGI.
+- CSRF Token, login failure rate limiting, attachment upload, and rich text editing are not implemented.
+- No automated test files are provided; during development, Flask `test_client` with a temporary database was used for regression verification of registration/login, redirect interception, posting/commenting, unauthorized access, post/comment deletion, JSON like toggling, etc.
+- The session secret is hardcoded in the source code and should be read from an environment variable before deployment.
 
-- 邮箱：[anjuxi.ME@outlook.com](mailto:anjuxi.ME@outlook.com)
-- SIP 电话：[sip:anjuxi@sip.linphone.org](sip:anjuxi@sip.linphone.org)
+---
 
-本项目为个人学习与教学演示用途，欢迎交流与指正。
+## Author and Contact
+
+**Dr. Ailan Anjuxi (谙弆悕)**
+
+- Email: [anjuxi.ME@outlook.com](mailto:anjuxi.ME@outlook.com)
+- SIP phone: [sip:anjuxi@sip.linphone.org](sip:anjuxi@sip.linphone.org)
+
+This project is for personal learning and teaching demonstration purposes. Discussion and corrections are welcome.
