@@ -150,7 +150,7 @@ The first registered user will automatically become an administrator!
 
 Visit <http://127.0.0.1:5000> in your browser. First register an account (the first registered account becomes the administrator), and then you can post, comment, and like.
 
-![Screenshot 2026-10-29 185701](屏幕截图 2026-10-29 185701.png)
+![Screenshot](<屏幕截图 2026-10-29 185701.png>)
 
 ### Database Initialization and Reset
 
