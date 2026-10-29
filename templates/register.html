@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}注册 - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="auth-head">
+      <span class="auth-mark">{{ ui.icon("user", 22) }}</span>
+      <div>
+        <h2>加入校园论坛</h2>
+        <p class="muted">注册后即可发帖、评论、点赞（首位注册用户将成为管理员）</p>
+      </div>
+    </div>
+    <form method="post">
+      <label>用户名</label>
+      <input type="text" name="username" required autofocus placeholder="2-20 位字母、数字、下划线或中文">
+      <label>昵称（可选）</label>
+      <input type="text" name="nickname" placeholder="展示给大家的名字，默认同用户名">
+      <label>密码</label>
+      <input type="password" name="password" required placeholder="至少 6 位">
+      <label>确认密码</label>
+      <input type="password" name="password2" required placeholder="再次输入密码">
+      <button type="submit" class="btn btn-primary btn-block">注册</button>
+    </form>
+    <p class="auth-switch">已有账号？<a href="{{ url_for('login') }}">直接登录</a></p>
+  </div>
+</div>
+{% endblock %}

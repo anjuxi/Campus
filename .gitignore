@@ -1,0 +1,19 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+
+# 虚拟环境
+.venv/
+venv/
+
+# 本地数据库（含用户数据，不纳入版本库）
+forum.db
+forum.db-journal
+forum.db-wal
+forum.db-shm
+
+# 调试 / 截图临时目录
+.screenshots/
+
+# 环境变量与密钥
+.env

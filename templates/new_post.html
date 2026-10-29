@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}发布帖子 - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="narrow-wrap">
+  <div class="card">
+    <h2 class="page-title">{{ ui.icon("pencil", 18) }}发布新帖</h2>
+    <form method="post" class="post-form">
+      <label>选择板块</label>
+      <div class="section-picker">
+        {% for s in SECTIONS %}
+        <label class="section-option">
+          <input type="radio" name="section" value="{{ s }}" {{ 'checked' if loop.first }}>
+          <span>{{ ui.icon(SECTION_ICONS[s], 14) }}{{ s }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <label>标题</label>
+      <input type="text" name="title" required maxlength="60" placeholder="一句话说清楚，2-60 字">
+
+      <label>内容</label>
+      <textarea name="content" rows="10" required placeholder="详细描述一下…"></textarea>
+
+      <div class="form-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-ghost">取消</a>
+        <button type="submit" class="btn btn-primary">发布</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

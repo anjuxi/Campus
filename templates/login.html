@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}登录 - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="auth-head">
+      <span class="auth-mark">{{ ui.icon("user", 22) }}</span>
+      <div>
+        <h2>欢迎回来</h2>
+        <p class="muted">登录校园论坛，和同学们一起交流</p>
+      </div>
+    </div>
+    <form method="post">
+      <label>用户名</label>
+      <input type="text" name="username" required autofocus placeholder="请输入用户名">
+      <label>密码</label>
+      <input type="password" name="password" required placeholder="请输入密码">
+      <button type="submit" class="btn btn-primary btn-block">登录</button>
+    </form>
+    <p class="auth-switch">还没有账号？<a href="{{ url_for('register') }}">立即注册</a></p>
+  </div>
+</div>
+{% endblock %}

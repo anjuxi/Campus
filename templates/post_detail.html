@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}{{ post['title'] }} - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="narrow-wrap">
+  <!-- 返回上一页 -->
+  <div class="back-bar">
+    <a href="javascript:void(0)" class="back-link"
+       onclick="history.length > 1 ? history.back() : location.href='{{ url_for('index') }}';">
+      {{ ui.icon("arrow-left", 15) }}<span>返回</span>
+    </a>
+    <a href="{{ url_for('index', section=post['section']) }}" class="back-sub">
+      返回「{{ post['section'] }}」板块
+    </a>
+  </div>
+
+  <!-- 帖子正文 -->
+  <div class="card post-detail">
+    <div class="post-detail-head">
+      {% if post['is_pinned'] %}
+        <span class="badge-pin">{{ ui.icon("pin", 12) }}置顶</span>
+      {% endif %}
+      {{ ui.section_badge(post['section']) }}
+      <h1>{{ post['title'] }}</h1>
+      <div class="post-detail-meta">
+        <a href="{{ url_for('user_home', user_id=post['user_id']) }}" class="author">
+          {{ ui.avatar(post['nickname'], post['avatar'], "sm") }}
+          <span>{{ post['nickname'] }}</span>
+        </a>
+        <span>发布于 {{ post['created_at'] | timeago }}</span>
+        <span class="meta-stat">{{ ui.icon("eye", 13) }}{{ post['views'] }} 次浏览</span>
+      </div>
+    </div>
+
+    <div class="post-detail-content">{{ post['content'] }}</div>
+
+    <div class="post-detail-actions">
+      <button id="like-btn" class="btn {{ 'btn-liked' if liked else 'btn-ghost' }}"
+              data-post-id="{{ post['id'] }}"
+              data-login="{{ '1' if g.user else '0' }}">
+        {{ ui.icon("heart", 16) }}
+        <span id="like-count">{{ post['like_count'] }}</span>
+        <span class="like-label">{{ '已赞' if liked else '点赞' }}</span>
+      </button>
+
+      {% if g.user and (g.user['id'] == post['user_id'] or g.user['is_admin']) %}
+      <form method="post" action="{{ url_for('delete_post', post_id=post['id']) }}"
+            class="inline-form" data-confirm="确定删除这个帖子吗？">
+        <button type="submit" class="btn btn-ghost danger">
+          {{ ui.icon("trash", 15) }}删除
+        </button>
+      </form>
+      {% endif %}
+
+      {% if g.user and g.user['is_admin'] %}
+      <form method="post" action="{{ url_for('toggle_pin', post_id=post['id']) }}" class="inline-form">
+        <button type="submit" class="btn btn-ghost">
+          {{ ui.icon("pin", 15) }}{{ '取消置顶' if post['is_pinned'] else '置顶' }}
+        </button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 评论区 -->
+  <div class="card" id="comments">
+    <h3 class="side-title">{{ ui.icon("chat", 15) }}全部评论
+      <span class="count-pill">{{ comments | length }}</span>
+    </h3>
+
+    {% if g.user %}
+    <form method="post" action="{{ url_for('add_comment', post_id=post['id']) }}" class="comment-form">
+      <input type="hidden" name="parent_id" id="parent-id" value="">
+      <div class="reply-tip" id="reply-tip" style="display:none">
+        回复 <b id="reply-to"></b>
+        <a href="javascript:void(0)" id="cancel-reply">取消</a>
+      </div>
+      <textarea name="content" rows="3" required placeholder="友善发言，理性讨论…"></textarea>
+      <div class="comment-form-foot">
+        <button type="submit" class="btn btn-primary">
+          {{ ui.icon("chat", 14) }}发表评论
+        </button>
+      </div>
+    </form>
+    {% else %}
+    <p class="muted comment-login-tip">
+      登录后即可参与评论，<a href="{{ url_for('login', next=request.path) }}">去登录</a>
+    </p>
+    {% endif %}
+
+    <ul class="comment-list">
+      {% for c in comments %}
+      <li class="comment-item">
+        {{ ui.avatar(c['nickname'], c['avatar'], "sm") }}
+        <div class="comment-body">
+          <div class="comment-head">
+            <a href="{{ url_for('user_home', user_id=c['user_id']) }}" class="comment-author">{{ c['nickname'] }}</a>
+            {% if c['user_id'] == post['user_id'] %}<em class="badge-author">楼主</em>{% endif %}
+            <span class="muted">{{ c['created_at'] | timeago }}</span>
+          </div>
+          <p class="comment-content">
+            {% if c['parent_nickname'] %}<span class="reply-mark">回复 @{{ c['parent_nickname'] }}</span>{% endif %}
+            {{ c['content'] }}
+          </p>
+          <div class="comment-actions">
+            {% if g.user %}
+            <a href="javascript:void(0)" class="reply-btn"
+               data-comment-id="{{ c['id'] }}" data-nickname="{{ c['nickname'] }}">回复</a>
+            {% endif %}
+            {% if g.user and (g.user['id'] == c['user_id'] or g.user['is_admin']) %}
+            <form method="post" action="{{ url_for('delete_comment', comment_id=c['id']) }}"
+                  class="inline-form" data-confirm="确定删除这条评论吗？">
+              <button type="submit" class="link-btn danger">删除</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </li>
+      {% else %}
+      <li class="empty-comment">还没有评论，来抢沙发</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="card auth-card error-card">
+    <h1 class="error-code">{{ code }}</h1>
+    <p>{{ message }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">返回首页</a>
+  </div>
+</div>
+{% endblock %}

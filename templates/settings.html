@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}个人设置 - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="narrow-wrap">
+  <!-- 资料设置 -->
+  <div class="card">
+    <h3 class="side-title">{{ ui.icon("settings", 15) }}基础资料</h3>
+    <form method="post" class="post-form">
+      <input type="hidden" name="action" value="profile">
+
+      <label>头像配色</label>
+      <div class="avatar-picker">
+        {% for a in AVATARS %}
+        <label class="avatar-option" title="{{ a }}">
+          <input type="radio" name="avatar" value="{{ a }}" {{ 'checked' if g.user['avatar'] == a }}>
+          <span class="av av-md av-{{ a }}">{{ (g.user['nickname'][:1]) | upper }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <label>昵称</label>
+      <input type="text" name="nickname" value="{{ g.user['nickname'] }}" required maxlength="20">
+
+      <label>个性签名</label>
+      <textarea name="bio" rows="3" maxlength="100" placeholder="介绍一下自己吧…">{{ g.user['bio'] }}</textarea>
+
+      <button type="submit" class="btn btn-primary">保存资料</button>
+    </form>
+  </div>
+
+  <!-- 修改密码 -->
+  <div class="card">
+    <h3 class="side-title">{{ ui.icon("lock", 15) }}修改密码</h3>
+    <form method="post" class="post-form">
+      <input type="hidden" name="action" value="password">
+      <label>原密码</label>
+      <input type="password" name="old_password" required>
+      <label>新密码</label>
+      <input type="password" name="new_password" required placeholder="至少 6 位">
+      <label>确认新密码</label>
+      <input type="password" name="new_password2" required>
+      <button type="submit" class="btn btn-primary">修改密码</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block title %}首页 - 校园论坛{% endblock %}
+
+{% block content %}
+<div class="layout">
+  <!-- 左侧：帖子列表 -->
+  <div class="layout-main">
+    <!-- 板块切换标签 -->
+    <div class="section-tabs card">
+      <a href="{{ url_for('index', sort=sort, q=keyword) }}"
+         class="tab {{ 'active' if not section }}">全部</a>
+      {% for s in SECTIONS %}
+        <a href="{{ url_for('index', section=s, sort=sort, q=keyword) }}"
+           class="tab {{ 'active' if section == s }}">
+          {{ ui.icon(SECTION_ICONS[s], 14) }}<span>{{ s }}</span>
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- 排序与统计 -->
+    <div class="list-toolbar">
+      <div class="sort-links">
+        <a href="{{ url_for('index', section=section, q=keyword, sort='new') }}"
+           class="{{ 'active' if sort == 'new' }}">
+          {{ ui.icon("clock", 14) }}<span>最新</span>
+        </a>
+        <a href="{{ url_for('index', section=section, q=keyword, sort='hot') }}"
+           class="{{ 'active' if sort == 'hot' }}">
+          {{ ui.icon("trending", 14) }}<span>热门</span>
+        </a>
+      </div>
+      <span class="muted">共 {{ total }} 个帖子{% if keyword %}，搜索“{{ keyword }}”{% endif %}</span>
+    </div>
+
+    <!-- 帖子卡片列表 -->
+    {% if posts %}
+      {% for p in posts %}
+      <a href="{{ url_for('post_detail', post_id=p['id']) }}" class="post-card card">
+        {{ ui.avatar(p['nickname'], p['avatar'], "lg") }}
+        <div class="post-card-body">
+          <div class="post-card-title">
+            {% if p['is_pinned'] %}
+              <span class="badge-pin">{{ ui.icon("pin", 12) }}置顶</span>
+            {% endif %}
+            {{ ui.section_badge(p['section']) }}
+            <span class="title-text">{{ p['title'] }}</span>
+          </div>
+          <p class="post-card-excerpt">{{ p['content'] | excerpt }}</p>
+          <div class="post-card-meta">
+            <span class="meta-author">{{ p['nickname'] }}</span>
+            <span class="dot"></span>
+            <span>{{ p['created_at'] | timeago }}</span>
+            <span class="spacer"></span>
+            <span class="meta-stat">{{ ui.icon("eye", 13) }}{{ p['views'] }}</span>
+            <span class="meta-stat">{{ ui.icon("heart", 13) }}{{ p['like_count'] }}</span>
+            <span class="meta-stat">{{ ui.icon("chat", 13) }}{{ p['comment_count'] }}</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    {% else %}
+      <div class="card empty">
+        <div class="empty-icon">{{ ui.icon("inbox", 40) }}</div>
+        {% if keyword %}
+          <p>没有找到与“{{ keyword }}”相关的帖子</p>
+          <a href="{{ url_for('index', section=section) }}" class="btn btn-ghost">清除搜索</a>
+        {% else %}
+          <p>这里还没有帖子</p>
+          {% if g.user %}
+            <a href="{{ url_for('new_post') }}" class="btn btn-primary">发布第一帖</a>
+          {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-primary">登录后发帖</a>
+          {% endif %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- 分页 -->
+    {% if total_pages > 1 %}
+    <div class="pagination">
+      {% if page > 1 %}
+        <a href="{{ url_for('index', section=section, q=keyword, sort=sort, page=page-1) }}">上一页</a>
+      {% endif %}
+      {% for i in range(1, total_pages + 1) %}
+        {% if i == page %}
+          <span class="current">{{ i }}</span>
+        {% elif i <= 3 or i > total_pages - 3 or (i - page) | abs <= 2 %}
+          <a href="{{ url_for('index', section=section, q=keyword, sort=sort, page=i) }}">{{ i }}</a>
+        {% elif (i - page) | abs == 3 %}
+          <span class="dots">…</span>
+        {% endif %}
+      {% endfor %}
+      {% if page < total_pages %}
+        <a href="{{ url_for('index', section=section, q=keyword, sort=sort, page=page+1) }}">下一页</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- 右侧边栏 -->
+  <aside class="layout-side">
+    <div class="card side-card">
+      <h3 class="side-title">{{ ui.icon("chart", 15) }}论坛概况</h3>
+      <div class="stats-row">
+        <div><b>{{ stats.users }}</b><span>同学</span></div>
+        <div><b>{{ stats.posts }}</b><span>帖子</span></div>
+        <div><b>{{ stats.comments }}</b><span>评论</span></div>
+      </div>
+    </div>
+
+    <div class="card side-card">
+      <h3 class="side-title">{{ ui.icon("trending", 15) }}热门讨论</h3>
+      {% if hot_posts %}
+        <ul class="hot-list">
+          {% for h in hot_posts %}
+          <li>
+            <a href="{{ url_for('post_detail', post_id=h['id']) }}">{{ h['title'] }}</a>
+            <div class="hot-meta">
+              <span>{{ ui.icon("heart", 12) }}{{ h['like_count'] }}</span>
+              <span>{{ ui.icon("chat", 12) }}{{ h['comment_count'] }}</span>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">暂无热门帖子</p>
+      {% endif %}
+    </div>
+
+    <div class="card side-card">
+      <h3 class="side-title">{{ ui.icon("shield", 15) }}论坛公约</h3>
+      <ul class="rule-list">
+        <li>友善交流，互相尊重</li>
+        <li>交易信息请注意甄别</li>
+        <li>禁止广告与违规内容</li>
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% import "_ui.html" as ui %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}校园论坛{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- 顶部导航栏 -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="{{ url_for('index') }}" class="logo">
+        {{ ui.icon("book", 20) }}<span>校园论坛</span>
+      </a>
+
+      <form class="search-box" action="{{ url_for('index') }}" method="get">
+        {{ ui.icon("search", 15) }}
+        <input type="text" name="q" placeholder="搜索帖子、话题…" value="{{ keyword or '' }}">
+      </form>
+
+      <nav class="nav-links">
+        {% if g.user %}
+          <a href="{{ url_for('new_post') }}" class="btn btn-light btn-sm">
+            {{ ui.icon("pencil", 14) }}<span>发帖</span>
+          </a>
+          <a href="{{ url_for('user_home', user_id=g.user['id']) }}" class="nav-user" title="我的主页">
+            {{ ui.avatar(g.user['nickname'], g.user['avatar'], "sm") }}
+            <span class="nav-nick">{{ g.user['nickname'] }}</span>
+            {% if g.user['is_admin'] %}<em class="badge-admin">管理员</em>{% endif %}
+          </a>
+          <a href="{{ url_for('settings') }}" class="icon-btn" title="个人设置">
+            {{ ui.icon("settings", 18) }}
+          </a>
+          <a href="{{ url_for('logout') }}" class="btn btn-outline btn-sm btn-logout" title="退出登录">
+            {{ ui.icon("logout", 14) }}<span>退出</span>
+          </a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="btn btn-outline btn-sm">登录</a>
+          <a href="{{ url_for('register') }}" class="btn btn-light btn-sm">注册</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- 提示消息 -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container flash-wrap">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- 主体内容 -->
+  <main class="container main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">校园论坛 · 学生自建，非官方站点</div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
